@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NEO钱包SDK接口文档</title>
+    <link>https://inwecrypto.github.io/wallet-service/</link>
+    <description>Recent content on NEO钱包SDK接口文档</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    
+	<atom:link href="https://inwecrypto.github.io/wallet-service/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>API Reference</title>
+      <link>https://inwecrypto.github.io/wallet-service/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://inwecrypto.github.io/wallet-service/</guid>
+      <description>钱包接口 创建钱包 POST http://localhost:14019/wallet
+ Body
+ { &amp;#34;name&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;type&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;password&amp;#34;:&amp;#34;&amp;#34; }  返回值
+ { &amp;#34;name&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;type&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;address&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;mnemonic&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;privatekey&amp;#34;:&amp;#34;&amp;#34; } 参数说明    Parameter Type Description     address string 钱包地址   type string 钱包类型：eth,neo   mnemonic string 助记词   privatekey string 私钥    导入钱包 POST http://localhost:14019/wallet/import
+ Body
+ { &amp;#34;name&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;type&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;mnemonic&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;privatekey&amp;#34;:&amp;#34;&amp;#34;, &amp;#34;json&amp;#34;:&amp;#34;&amp;#34; } 参数说明    Parameter Type Description     name string 钱包名称   type string 钱包类型：eth,neo   mnemonic string 助记词（可选）   privatekey string 私钥（可选）   json string keystore （可选）    privatekey | json | mnemonic 任选其一</description>
+    </item>
+    
+  </channel>
+</rss>

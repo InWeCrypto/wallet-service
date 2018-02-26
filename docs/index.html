@@ -1,0 +1,296 @@
+<!doctype html>
+<html>
+<head>
+	<meta name="generator" content="Hugo 0.34" />
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>NEO钱包SDK接口文档</title>
+    <link href='/wallet-service/slate/stylesheets/monokai.css' rel="stylesheet" media="screen" />
+<link href='/wallet-service/slate/stylesheets/screen.css' rel="stylesheet" media="screen" />
+<link href='/wallet-service/slate/stylesheets/print.css' rel="stylesheet" media="print" />
+
+    
+<script src='/wallet-service/slate/javascripts/all.js'></script>
+
+    
+</head>
+<body class="index" data-languages="[ &#34;java&#34; ,  &#34;objc&#34; ]">
+    <a href="#" id="nav-button">
+        <span>
+        NAV
+        <img src='/wallet-service/slate/images/navbar.png'/>
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+        
+         <img src='/wallet-service/images/logo.png' />
+        
+        <div class="lang-selector">
+            
+            <a href="#" data-language-name="java">android</a>
+            
+            <a href="#" data-language-name="objc">iOS</a>
+            
+        </div>
+         
+        
+        <div class="search">
+            <input type="text" class="search" id="input-search" placeholder=''>
+        </div>
+        <ul class="search-results"></ul>
+        
+        <div id="toc">
+        </div>
+         
+        
+        <ul class="toc-footer">
+            
+            <li><a href='#'>Registrer deg for ein utviklarnøkkel</a></li>
+            
+            <li>Dokumentasjonen er driven av <a href="https://github.com/bep/docuapi" target="_blank">DocuAPI</a></li>
+            
+            <li>Hugo Theme av <a href="https://github.com/bep" target="_blank">bep</a></li>
+            
+        </ul>
+        
+        
+    </div>
+    <div class="page-wrapper">
+        <div class="dark-box"></div>
+        <div class="content">
+            
+    
+        
+
+<h1 id="钱包接口">钱包接口</h1>
+
+<h2 id="创建钱包">创建钱包</h2>
+
+<p><code>POST http://localhost:14019/wallet</code></p>
+
+<blockquote>
+<p>Body</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+    <span class="nt">&#34;password&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span>
+<span class="p">}</span></code></pre></div>
+<blockquote>
+<p>返回值</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;address&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;mnemonic&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+    <span class="nt">&#34;privatekey&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span>
+<span class="p">}</span></code></pre></div>
+<h3 id="参数说明">参数说明</h3>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>address</td>
+<td>string</td>
+<td>钱包地址</td>
+</tr>
+
+<tr>
+<td>type</td>
+<td>string</td>
+<td>钱包类型：eth,neo</td>
+</tr>
+
+<tr>
+<td>mnemonic</td>
+<td>string</td>
+<td>助记词</td>
+</tr>
+
+<tr>
+<td>privatekey</td>
+<td>string</td>
+<td>私钥</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="导入钱包">导入钱包</h2>
+
+<p><code>POST http://localhost:14019/wallet/import</code></p>
+
+<blockquote>
+<p>Body</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+    <span class="nt">&#34;mnemonic&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+    <span class="nt">&#34;privatekey&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;json&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span>
+<span class="p">}</span></code></pre></div>
+<h3 id="参数说明-1">参数说明</h3>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>钱包名称</td>
+</tr>
+
+<tr>
+<td>type</td>
+<td>string</td>
+<td>钱包类型：eth,neo</td>
+</tr>
+
+<tr>
+<td>mnemonic</td>
+<td>string</td>
+<td>助记词（可选）</td>
+</tr>
+
+<tr>
+<td>privatekey</td>
+<td>string</td>
+<td>私钥（可选）</td>
+</tr>
+
+<tr>
+<td>json</td>
+<td>string</td>
+<td>keystore （可选）</td>
+</tr>
+</tbody>
+</table>
+
+<p>privatekey | json | mnemonic 任选其一</p>
+
+<h2 id="获取钱包列表">获取钱包列表</h2>
+
+<p><code>GET http://localhost:14019/wallet/</code></p>
+
+<blockquote>
+<p>成功应答</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+    <span class="nt">&#34;address&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;mnemonic&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+    <span class="nt">&#34;privatekey&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;json&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span>
+<span class="p">}</span></code></pre></div>
+<h2 id="获取指定钱包">获取指定钱包</h2>
+
+<p><code>GET http://localhost:14019/wallet/{钱包地址}</code></p>
+
+<blockquote>
+<p>成功应答</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+    <span class="nt">&#34;address&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;mnemonic&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+    <span class="nt">&#34;privatekey&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;json&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span>
+<span class="p">}</span></code></pre></div>
+<h2 id="获取钱包的助记词">获取钱包的助记词</h2>
+
+<p><code>GET http://localhost:14019/wallet/{钱包地址}/{钱包密码}</code></p>
+
+<blockquote>
+<p>成功应答</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;mnemonic&#34;</span><span class="p">:</span><span class="s2">&#34;&#34;</span><span class="p">,</span> 
+<span class="p">}</span></code></pre></div>
+<h2 id="删除钱包">删除钱包</h2>
+
+<p><code>DELETE http://localhost:14019/wallet/{钱包地址}</code></p>
+
+<h2 id="eth转账">eth转账</h2>
+
+<p><code>POST http://localhost:14019/eth/tx/</code></p>
+
+<blockquote>
+<p>body</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// EthTx .
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">EthTx</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">Nonce</span>     <span class="kt">string</span> <span class="s">`json:&#34;nonce&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">Wallet</span>    <span class="kt">string</span> <span class="s">`json:&#34;wallet&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">Asset</span>     <span class="kt">string</span> <span class="s">`json:&#34;asset&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">To</span>        <span class="kt">string</span> <span class="s">`json:&#34;to&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">Amount</span>    <span class="kt">string</span> <span class="s">`json:&#34;amount&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">GasPrice</span>  <span class="kt">string</span> <span class="s">`json:&#34;gasprice&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">GasLimits</span> <span class="kt">string</span> <span class="s">`json:&#34;gasLimits&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">Password</span>  <span class="kt">string</span> <span class="s">`json:&#34;password&#34; binding:&#34;required&#34;`</span>
+<span class="p">}</span></code></pre></div>
+<blockquote>
+<p>成功响应</p>
+</blockquote>
+
+<p>tx字符串</p>
+
+<h2 id="neo转账">neo转账</h2>
+
+<p><code>POST http://localhost:14019/neo/tx/</code></p>
+
+<blockquote>
+<p>body</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// NeoTx .
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">NeoTx</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">Wallet</span>   <span class="kt">string</span> <span class="s">`json:&#34;wallet&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">Asset</span>    <span class="kt">string</span> <span class="s">`json:&#34;asset&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">To</span>       <span class="kt">string</span> <span class="s">`json:&#34;to&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">Amount</span>   <span class="kt">string</span> <span class="s">`json:&#34;amount&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">Gas</span>      <span class="kt">string</span> <span class="s">`json:&#34;gas&#34;`</span>
+	<span class="nx">Unspent</span>  <span class="kt">string</span> <span class="s">`json:&#34;unspent&#34; binding:&#34;required&#34;`</span>
+	<span class="nx">Password</span> <span class="kt">string</span> <span class="s">`json:&#34;password&#34; binding:&#34;required&#34;`</span>
+<span class="p">}</span></code></pre></div>
+<blockquote>
+<p>成功响应</p>
+</blockquote>
+
+<p>tx字符串</p>
+
+    
+
+        </div>
+        <div class="dark-box">
+            
+            <div class="lang-selector">
+                
+                <a href="#" data-language-name="java">android</a>
+                
+                <a href="#" data-language-name="objc">iOS</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+</body>
+</html>
