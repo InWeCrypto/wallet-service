@@ -26,6 +26,7 @@ type Wallet struct {
 	Password   string     `json:"password,omitempty" xorm:"-"`
 	PrivateKey string     `json:"wif,omitempty" xorm:"-"`
 	JSON       string     `json:"json" xorm:""`
+	Lang       string     `json:"lang"`
 }
 
 // EthTx .

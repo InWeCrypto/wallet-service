@@ -363,8 +363,27 @@ func (server *APIServer) makeRouter() {
 		} else if wallet.PrivateKey != "" {
 			err = server.ImportFromPrivateKey(wallet)
 		} else if wallet.JSON != "" {
-			err = server.ImportFromPrivateKey(wallet)
+			err = server.ImportFromKeyStore(wallet)
 		}
+
+		if err != nil {
+			server.ErrorF("import wallet error :%s", err)
+
+			ctx.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
+
+			return
+		}
+
+		_, err = server.db.Delete(wallet)
+
+		if err != nil {
+			server.ErrorF("delete wallet by address %s :%s", wallet.Address, err)
+
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		_, err = server.db.InsertOne(wallet)
 
 		if err != nil {
 			server.ErrorF("import wallet error :%s", err)
@@ -381,7 +400,7 @@ func (server *APIServer) makeRouter() {
 // ImportFromMnemonic .
 func (server *APIServer) ImportFromMnemonic(wallet *rpc.Wallet) error {
 	if wallet.Type == rpc.EthWallet {
-		dic, _ := bip39.GetDict("en_US")
+		dic, _ := bip39.GetDict(wallet.Lang)
 
 		data, err := bip39.MnemonicToByteArray(wallet.Mnemonic, dic)
 
@@ -409,12 +428,14 @@ func (server *APIServer) ImportFromMnemonic(wallet *rpc.Wallet) error {
 		wallet.PublicKey = hex.EncodeToString(keystore.PrivateKey.PublicKey.X.Bytes())
 		wallet.JSON = string(keystoreJSON)
 
-		_, err = server.db.InsertOne(wallet)
+		// _, err = server.db.InsertOne(wallet)
 
-		return err
+		// return err
+
+		return nil
 
 	} else if wallet.Type == rpc.NeoWallet {
-		dic, _ := bip39.GetDict("en_US")
+		dic, _ := bip39.GetDict(wallet.Lang)
 
 		data, err := bip39.MnemonicToByteArray(wallet.Mnemonic, dic)
 
@@ -442,9 +463,11 @@ func (server *APIServer) ImportFromMnemonic(wallet *rpc.Wallet) error {
 		wallet.PublicKey = hex.EncodeToString(keystore.PrivateKey.PublicKey.X.Bytes())
 		wallet.JSON = string(keystoreJSON)
 
-		_, err = server.db.InsertOne(wallet)
+		// _, err = server.db.InsertOne(wallet)
 
-		return err
+		// return err
+
+		return nil
 	} else {
 		return fmt.Errorf("unknown wallet type :%s", wallet.Type)
 	}
@@ -469,9 +492,11 @@ func (server *APIServer) ImportFromKeyStore(wallet *rpc.Wallet) error {
 		wallet.Mnemonic = mnemonic
 		wallet.PublicKey = hex.EncodeToString(keystore.PrivateKey.PublicKey.X.Bytes())
 
-		_, err = server.db.InsertOne(wallet)
+		// _, err = server.db.InsertOne(wallet)
 
-		return err
+		// return err
+
+		return nil
 	} else if wallet.Type == rpc.NeoWallet {
 		keystore, err := neokeystore.ReadKeyStore([]byte(wallet.JSON), wallet.Password)
 
@@ -489,9 +514,11 @@ func (server *APIServer) ImportFromKeyStore(wallet *rpc.Wallet) error {
 		wallet.Mnemonic = mnemonic
 		wallet.PublicKey = hex.EncodeToString(keystore.PrivateKey.PublicKey.X.Bytes())
 
-		_, err = server.db.InsertOne(wallet)
+		// _, err = server.db.InsertOne(wallet)
 
-		return err
+		// return err
+
+		return nil
 	} else {
 		return fmt.Errorf("unknown wallet type :%s", wallet.Type)
 	}
@@ -524,9 +551,11 @@ func (server *APIServer) ImportFromPrivateKey(wallet *rpc.Wallet) error {
 		wallet.PublicKey = hex.EncodeToString(keystore.PrivateKey.PublicKey.X.Bytes())
 		wallet.JSON = string(keystoreJSON)
 
-		_, err = server.db.InsertOne(wallet)
+		// _, err = server.db.InsertOne(wallet)
 
-		return err
+		// return err
+
+		return nil
 
 	} else if wallet.Type == rpc.NeoWallet {
 		keystore, err := neokeystore.KeyFromWIF(wallet.PrivateKey)
@@ -545,9 +574,10 @@ func (server *APIServer) ImportFromPrivateKey(wallet *rpc.Wallet) error {
 		wallet.PublicKey = hex.EncodeToString(keystore.PrivateKey.PublicKey.X.Bytes())
 		wallet.JSON = string(keystoreJSON)
 
-		_, err = server.db.InsertOne(wallet)
+		// _, err = server.db.InsertOne(wallet)
 
-		return err
+		// return err
+		return nil
 	} else {
 		return fmt.Errorf("unknown wallet type :%s", wallet.Type)
 	}
