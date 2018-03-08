@@ -246,6 +246,12 @@ func New(name string) *Script {
 	}
 }
 
+// Reset .
+func (script *Script) Reset() {
+	script.Ops = nil
+	script.Error = nil
+}
+
 // Emit emit one op
 func (script *Script) Emit(opcode OpCode, arg []byte) *Script {
 

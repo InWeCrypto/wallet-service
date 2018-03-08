@@ -83,6 +83,8 @@ func (tx *Transaction) Sign(ecdsaPrivateKey *ecdsa.PrivateKey) ([]byte, string, 
 
 	address := publicKeyToBytes(&ecdsaPrivateKey.PublicKey)
 
+	signScript.Reset()
+
 	signScript.
 		EmitPushBytes(address).
 		Emit(script.CHECKSIG, nil)
