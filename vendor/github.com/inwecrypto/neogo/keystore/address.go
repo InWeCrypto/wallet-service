@@ -4,12 +4,10 @@ import (
 	"bytes"
 	"crypto/ecdsa"
 	"crypto/elliptic"
-	"crypto/sha256"
 	"fmt"
 
 	"github.com/btcsuite/btcutil/base58"
 	"github.com/inwecrypto/neogo/script"
-	"golang.org/x/crypto/ripemd160"
 )
 
 // DecodeWIF .
@@ -70,31 +68,7 @@ func PrivateToScriptHash(privateKey *ecdsa.PrivateKey) ([]byte, error) {
 	addressScript.EmitPushBytes(pubbytes)
 	addressScript.Emit(script.CHECKSIG, nil)
 
-	var buff bytes.Buffer
-
-	err := addressScript.Write(&buff)
-
-	if err != nil {
-		return nil, err
-	}
-
-	pubbytes = buff.Bytes()
-
-	/* SHA256 Hash */
-	sha256h := sha256.New()
-	sha256h.Reset()
-	sha256h.Write(pubbytes)
-	pubhash1 := sha256h.Sum(nil)
-
-	/* RIPEMD-160 Hash */
-	ripemd160h := ripemd160.New()
-	ripemd160h.Reset()
-	ripemd160h.Write(pubhash1)
-	pubhash2 := ripemd160h.Sum(nil)
-
-	programhash := pubhash2
-
-	return programhash, nil
+	return addressScript.Hash()
 }
 
 // PrivateToAddress .
