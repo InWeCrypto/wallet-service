@@ -140,9 +140,10 @@ func (server *APIServer) makeRouter() {
 		ctx.JSON(http.StatusOK, wallet)
 	})
 
-	server.engine.GET("/mnemonic/:address/:password", func(ctx *gin.Context) {
+	server.engine.GET("/mnemonic/:address/:password/:lang", func(ctx *gin.Context) {
 		address := ctx.Param("address")
 		password := ctx.Param("password")
+		lang := ctx.Param("lang")
 		var wallet rpc.Wallet
 		ok, err := server.db.Where("address = ?", address).Get(&wallet)
 
@@ -170,7 +171,7 @@ func (server *APIServer) makeRouter() {
 				return
 			}
 
-			mnemonic, err := getMnemonic("en_US", key.ToBytes())
+			mnemonic, err := getMnemonic(lang, key.ToBytes())
 
 			if err != nil {
 				server.ErrorF("read keystore of wallet address %s failed %s", address, err)
@@ -194,7 +195,7 @@ func (server *APIServer) makeRouter() {
 			return
 		}
 
-		mnemonic, err := getMnemonic("en_US", key.ToBytes())
+		mnemonic, err := getMnemonic(lang, key.ToBytes())
 
 		if err != nil {
 			server.ErrorF("read keystore of wallet address %s failed %s", address, err)

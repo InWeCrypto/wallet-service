@@ -121,7 +121,7 @@ privatekey | json | mnemonic 任选其一
 ## 获取钱包的助记词
 
 
-`GET http://localhost:14019/mnemonic/{钱包地址}/{钱包密码}`
+`GET http://localhost:14019/mnemonic/{钱包地址}/{钱包密码}/{语言}`
 
 
 > 成功应答
