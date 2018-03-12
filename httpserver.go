@@ -121,6 +121,10 @@ func (server *APIServer) makeRouter() {
 			return
 		}
 
+		if wallet.Lang == "" {
+			wallet.Lang = "en_US"
+		}
+
 		if wallet.Type == rpc.NeoWallet {
 			if err := server.createNEOWallet(wallet); err != nil {
 				server.ErrorF("create wallet error :%s", err)
@@ -811,7 +815,7 @@ func (server *APIServer) createNEOWallet(wallet *rpc.Wallet) error {
 		return err
 	}
 
-	mnemonic, err := getMnemonic("en_US", keystore.ToBytes())
+	mnemonic, err := getMnemonic(wallet.Lang, keystore.ToBytes())
 
 	if err != nil {
 		return err
@@ -841,7 +845,7 @@ func (server *APIServer) createETHWallet(wallet *rpc.Wallet) error {
 		return err
 	}
 
-	mnemonic, err := getMnemonic("en_US", keystore.ToBytes())
+	mnemonic, err := getMnemonic(wallet.Lang, keystore.ToBytes())
 
 	if err != nil {
 		return err
