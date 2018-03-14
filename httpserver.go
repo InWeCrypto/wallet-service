@@ -673,6 +673,7 @@ func (server *APIServer) transferNeo(tx *rpc.NeoTx) (*rpc.NeoRawTX, error) {
 	scriptHash, err := hex.DecodeString(strings.TrimPrefix(tx.Asset, "0x"))
 
 	if err != nil {
+		server.ErrorF("decode asset %s err %s", tx.Asset, err)
 		return nil, err
 	}
 
