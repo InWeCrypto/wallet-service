@@ -775,7 +775,7 @@ func (server *APIServer) transferEther(tx *rpc.EthTx) (string, error) {
 			gasLimits,
 			nil)
 	} else {
-		codes, err := erc20.Transfer(tx.Password, tx.Amount)
+		codes, err := erc20.Transfer(tx.To, tx.Amount)
 
 		if err != nil {
 			return "", err
