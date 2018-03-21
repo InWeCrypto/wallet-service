@@ -327,6 +327,30 @@ func (server *APIServer) makeRouter() {
 		ctx.JSON(http.StatusOK, codes)
 	})
 
+	server.engine.POST("/neo/claim", func(ctx *gin.Context) {
+		var tx *rpc.NeoTx
+
+		if err := ctx.ShouldBindJSON(&tx); err != nil {
+			server.ErrorF("parse tx error :%s", err)
+
+			ctx.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
+			return
+		}
+
+		server.DebugF("neo claim tx :\n%s", printResult(tx))
+
+		codes, err := server.claimGas(tx)
+
+		if err != nil {
+			server.ErrorF("create claim tx error :%s", err)
+
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, codes)
+	})
+
 	server.engine.POST("/neo/tx", func(ctx *gin.Context) {
 		var tx *rpc.NeoTx
 
@@ -627,6 +651,43 @@ func (server *APIServer) getNeoWallet(address string, password string) (*neokeys
 
 }
 
+func (server *APIServer) claimGas(tx *rpc.NeoTx) (*rpc.NeoRawTX, error) {
+	key, err := server.getNeoWallet(tx.Wallet, tx.Password)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var utxos []*neorpc.UTXO
+
+	if err := json.Unmarshal([]byte(tx.Unspent), &utxos); err != nil {
+		return nil, err
+	}
+
+	amount, err := readBigint(tx.Amount)
+
+	if err != nil {
+		return nil, err
+	}
+
+	fixed8 := neotx.Fixed8(amount.Int64())
+
+	claimTx := neotx.NewClaimTx()
+
+	err = claimTx.Claim(fixed8.Float64(), tx.To, utxos)
+
+	if err != nil {
+		return nil, err
+	}
+
+	rawtxdata, txid, err := claimTx.Tx().Sign(key.PrivateKey)
+
+	return &rpc.NeoRawTX{
+		Data: hex.EncodeToString(rawtxdata),
+		TxID: txid,
+	}, err
+}
+
 func (server *APIServer) transferNeo(tx *rpc.NeoTx) (*rpc.NeoRawTX, error) {
 	key, err := server.getNeoWallet(tx.Wallet, tx.Password)
 
@@ -652,7 +713,7 @@ func (server *APIServer) transferNeo(tx *rpc.NeoTx) (*rpc.NeoRawTX, error) {
 
 		vout := []*neotx.Vout{
 			&neotx.Vout{
-				Asset:   neotx.NEOAssert,
+				Asset:   tx.Asset,
 				Value:   neotx.Fixed8(amount.Int64()),
 				Address: tx.To,
 			},
@@ -666,7 +727,7 @@ func (server *APIServer) transferNeo(tx *rpc.NeoTx) (*rpc.NeoRawTX, error) {
 
 		return &rpc.NeoRawTX{
 			Data: hex.EncodeToString(rawtxdata),
-			TxID: txid,
+			TxID: "0x" + txid,
 		}, err
 	}
 
