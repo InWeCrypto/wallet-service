@@ -753,6 +753,8 @@ func (server *APIServer) transferNeo(tx *rpc.NeoTx) (*rpc.NeoRawTX, error) {
 		return nil, err
 	}
 
+	bytesOfFrom = reverseBytes(bytesOfFrom)
+
 	to, err := DecodeAddress(tx.To)
 
 	if err != nil {
@@ -765,6 +767,8 @@ func (server *APIServer) transferNeo(tx *rpc.NeoTx) (*rpc.NeoRawTX, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	bytesOfTo = reverseBytes(bytesOfTo)
 
 	script, err := nep5.Transfer(scriptHash, bytesOfFrom, bytesOfTo, amount)
 
