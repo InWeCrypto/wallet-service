@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/dynamicgo/config"
 	"github.com/dynamicgo/slf4go"
@@ -780,7 +781,9 @@ func (server *APIServer) transferNeo(tx *rpc.NeoTx) (*rpc.NeoRawTX, error) {
 
 	gasFixed8 := neotx.Fixed8(gas.Int64())
 
-	tansferTx := neotx.NewInvocationTx(script, gasFixed8.Float64())
+	nonce, _ := time.Now().MarshalBinary()
+
+	tansferTx := neotx.NewInvocationTx(script, gasFixed8.Float64(), bytesOfFrom, nonce)
 
 	err = tansferTx.CalcInputs(nil, utxos)
 
